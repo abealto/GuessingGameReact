@@ -19,9 +19,9 @@ function GuessingGame() {
     return randomNumGenerated;
   };
 
-  //   const handleChange(e){
-
-  //   };
+  const handleChange = (e) => {
+    console.log(e.target.value);
+  };
   const handleSubmit = (e) => {};
 
   const handleReset = () => {
@@ -35,7 +35,7 @@ function GuessingGame() {
         <Form.Label>
           I am thinking of a number between 1 and 100. Guess the Lucky Number!
         </Form.Label>
-        {/* <Form.Control type='text' onChange={handleChange} name='userGuess' /> */}
+        <Form.Control type='text' onChange={handleChange} name='userGuess' />
         <br />
         <Button type='submit'>Guess</Button>
         <br />
