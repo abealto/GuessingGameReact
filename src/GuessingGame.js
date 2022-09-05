@@ -4,13 +4,15 @@ import Button from 'react-bootstrap/Button';
 
 function GuessingGame() {
   const [luckyNum, setLuckyNum] = useState(null);
-  const [guess, setGuess] = useState();
+  const [guess, setGuess] = useState('');
+
+  console.log(guess);
 
   useEffect(() => {
     if (luckyNum === null) {
       setLuckyNum(JSON.parse(localStorage.getItem('genNumber')) || randomNum());
     }
-  }, [luckyNum]);
+  }, [guess, luckyNum]);
 
   const randomNum = () => {
     const randomNumGenerated = Math.floor(Math.random() * 100 + 1);
@@ -20,11 +22,14 @@ function GuessingGame() {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+    setGuess(e.target.value);
   };
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   const handleReset = () => {
+    setGuess('');
     setLuckyNum(randomNum());
   };
 
@@ -35,7 +40,12 @@ function GuessingGame() {
         <Form.Label>
           I am thinking of a number between 1 and 100. Guess the Lucky Number!
         </Form.Label>
-        <Form.Control type='text' onChange={handleChange} name='userGuess' />
+        <Form.Control
+          type='text'
+          value={guess}
+          onChange={handleChange}
+          name='userGuess'
+        />
         <br />
         <Button type='submit'>Guess</Button>
         <br />
