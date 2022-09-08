@@ -3,9 +3,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 function GuessingGame() {
-  const [luckyNum, setLuckyNum] = useState(null);
   const [guess, setGuess] = useState('');
   const [message, setMessage] = useState('Start Guessing');
+  const [luckyNum, setLuckyNum] = useState(null);
+  const [timesGuessed, setTimesGuessed] = useState(null);
 
   console.log(guess);
 
@@ -13,7 +14,11 @@ function GuessingGame() {
     if (luckyNum === null) {
       setLuckyNum(JSON.parse(localStorage.getItem('genNumber')) || randomNum());
     }
-  }, [guess, luckyNum]);
+
+    if (timesGuessed === null) {
+      setTimesGuessed(JSON.parse(localStorage.getItem('timesGuessed')) || 0);
+    }
+  }, [guess, luckyNum, timesGuessed]);
 
   const randomNum = () => {
     const randomNumGenerated = Math.floor(Math.random() * 100);
@@ -23,24 +28,37 @@ function GuessingGame() {
   };
 
   const handleChange = (e) => {
-    setGuess(e.target.value);
+    if (!isNaN(e.target.value)) {
+      setGuess(e.target.value);
+    } else {
+      alert('you must type in a number :)');
+    }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const numberGuessed = parseInt(guess);
     if (numberGuessed === luckyNum) {
       setMessage('Congrats you guessed it!');
+      setTimesGuessed(timesGuessed + 1);
+      localStorage.setItem('timesGuessed', JSON.stringify(timesGuessed + 1));
     } else if (numberGuessed < luckyNum) {
       setMessage('Number is too low');
+      setTimesGuessed(timesGuessed + 1);
+      localStorage.setItem('timesGuessed', JSON.stringify(timesGuessed + 1));
     } else if (numberGuessed > luckyNum) {
       setMessage('Number is too high');
+      setTimesGuessed(timesGuessed + 1);
+      localStorage.setItem('timesGuessed', JSON.stringify(timesGuessed + 1));
     }
   };
 
   const handleReset = () => {
     setGuess('');
     setMessage('Start Guessing');
+    setTimesGuessed(0);
     localStorage.removeItem('genNumber');
+    localStorage.removeItem('timesGuessed');
     setLuckyNum(randomNum());
   };
 
