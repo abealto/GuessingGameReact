@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 function GuessingGame() {
   const [luckyNum, setLuckyNum] = useState(null);
   const [guess, setGuess] = useState('');
+  const [message, setMessage] = useState('Start Guessing');
 
   console.log(guess);
 
@@ -15,7 +16,7 @@ function GuessingGame() {
   }, [guess, luckyNum]);
 
   const randomNum = () => {
-    const randomNumGenerated = Math.floor(Math.random() * 100 + 1);
+    const randomNumGenerated = Math.floor(Math.random() * 100);
     localStorage.setItem('genNumber', JSON.stringify(randomNumGenerated));
     console.log(randomNumGenerated);
     return randomNumGenerated;
@@ -26,10 +27,20 @@ function GuessingGame() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const numberGuessed = parseInt(guess);
+    if (numberGuessed === luckyNum) {
+      setMessage('Congrats you guessed it!');
+    } else if (numberGuessed < luckyNum) {
+      setMessage('Number is too low');
+    } else if (numberGuessed > luckyNum) {
+      setMessage('Number is too high');
+    }
   };
 
   const handleReset = () => {
     setGuess('');
+    setMessage('Start Guessing');
+    localStorage.removeItem('genNumber');
     setLuckyNum(randomNum());
   };
 
@@ -52,6 +63,9 @@ function GuessingGame() {
         <Button type='button' onClick={handleReset}>
           Reset
         </Button>
+        <br />
+        <Form.Label>{message}</Form.Label>
+        <br />
       </Form>
     </div>
   );
