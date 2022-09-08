@@ -65,18 +65,21 @@ function GuessingGame() {
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className='mb-3'></Form.Group>
-        <Form.Label>
-          I am thinking of a number between 1 and 100. Guess the Lucky Number!
-        </Form.Label>
-        <Form.Control
-          type='text'
-          value={guess}
-          onChange={handleChange}
-          name='userGuess'
-        />
-        <br />
+        <Form.Group className='mb-3'>
+          <Form.Label>
+            I am thinking of a number between 1 and 100. Guess the Lucky Number!
+          </Form.Label>
+          <br />
+          <Form.Label>You have made {timesGuessed} guesses</Form.Label>
+          <Form.Control
+            type='text'
+            value={guess}
+            onChange={handleChange}
+            name='userGuess'
+          />
+        </Form.Group>
         <Button type='submit'>Guess</Button>
+        <br />
         <br />
         <Button type='button' onClick={handleReset}>
           Reset
